@@ -1,75 +1,70 @@
 import React from "react";
 import { useRef, useState } from 'react';
+import { toast } from "react-toastify";
 import Navbar from "../Navbar/navbar";
 import emailjs from '@emailjs/browser';
+import { FaArrowLeft } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 function Registrations() {
   const form = useRef();
+ 
+  var navigate = useNavigate()
+  const sendEmail = (e) => {
+    e.preventDefault();
 
-
-  const validateForm = () => {
-    let isValid = true;
-
-    // Check if any required fields are empty
     const requiredFields = ['user_Namee', 'user_Agee', 'user_Datee', 'user_Parentt', 'user_contact', 'user_Add', 'user_emery', 'user_session', 'user_tshirt', 'user_exp', 'user_last'];
+    let isValid = true;
+    
     requiredFields.forEach(field => {
       const input = form.current.elements[field];
       if (!input.value.trim()) {
         isValid = false;
-        input.classList.add('error');
-      } else {
-        input.classList.remove('error');
+        toast.error("Please check all the inputs.");
       }
     });
-
-    // Check if contact number is valid
-    const contactNumber = form.current.elements['user_contact'].value;
-    if (!/^\d{10}$/.test(contactNumber)) {
-      isValid = false;
-      form.current.elements['user_contact'].classList.add('error');
+    
+    if (isValid) {
+      emailjs.sendForm('service_yxy3o2s', 'template_u5z7jpl', form.current, {
+          publicKey: 'pw1QIwo54-lpt4IZe',
+        })
+        .then(
+          () => {
+            console.log("SUCCESS!");
+            toast.success("Your Application Successfully Submitted");
+          },
+          (error) => {
+            console.log("FAILED...", error.text);
+            toast.error("Please Check Your Application");
+          }
+        );
     } else {
-      form.current.elements['user_contact'].classList.remove('error');
+      toast.error("Please check all the inputs.");
     }
+    
 
-    // Check if email format is valid
-    const email = form.current.elements['user_Email'].value;
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      isValid = false;
-      form.current.elements['user_Email'].classList.add('error');
-    } else {
-      form.current.elements['user_Email'].classList.remove('error');
-    }
-
-    return isValid;
-  };
-
-  const sendEmail = (e) => {
-    e.preventDefault();
-
-    if (!validateForm()) {
-      alert('Please fill out all required fields correctly.');
+    // Phone number validation
+    const phoneNumber = form.current.user_contact.value.trim();
+    if (phoneNumber.length !== 10 || isNaN(phoneNumber)) {
+      toast.error("Please enter a valid phone number.");
       return;
     }
 
-    emailjs
-      .sendForm('service_yxy3o2s', 'template_u5z7jpl', form.current, {
-        publicKey: 'pw1QIwo54-lpt4IZe',
-      })
-      .then(
-        () => {
-          alert("Your message has been sent successfully!");
-          alert('');
-        },
-        (error) => {
-          alert("Failed to send message. Please try again later.");
-        },
-      );
+    const emerNumber = form.current.user_emery.value.trim();
+    if (emerNumber.length !== 10 || isNaN(phoneNumber)) {
+      toast.error("Please enter a valid Emergency contact number.");
+      return;
+    }
+
+
+    
+
+   
   };
 
   return (
     <div className="bg-black ">
-      <Navbar/>
-      <h1 className="text-[25px] text-[#ff4c00] font-[700] text-center p-[20px] lg:text-[30px]">
-        SUMMER CAMP REGISTRATION
+      <h1 className="text-[25px] text-[#ff4c00]  font-[700] text-center p-[20px] lg:text-[30px]">
+      <FaArrowLeft onClick={()=>{navigate("/")}} />   SUMMER CAMP REGISTRATION
       </h1>
 
       <div>
@@ -102,6 +97,7 @@ function Registrations() {
           <div>
             <h1 className="text-white text-[20px] mb-2">Gender</h1>
             <select name="user_Genderr" className="p-[8px] w-[300px] text-white bg-[#232326fd] outline-none rounded-[6px] lg:p-[15px] lg:w-[400px]">
+            <option>Select Gender</option>
               <option>MALE</option>
               <option>FEMALE</option>
             </select>
@@ -166,6 +162,7 @@ function Registrations() {
           <div>
             <h1 className="text-white text-[20px] mb-2">Preferred Session</h1>
             <select name="user_session" className="p-[8px] w-[300px] text-white bg-[#232326fd] outline-none rounded-[6px] lg:p-[15px] lg:w-[400px]">
+            <option>Select Session</option>
               <option>Morning</option>
               <option>Evening</option>
               <option>Both Morning / Evening</option>
@@ -174,6 +171,7 @@ function Registrations() {
           <div>
             <h1 className="text-white text-[20px] mb-2">T-Shirt Size</h1>
             <select name="user_tshirt" className="p-[8px] w-[300px] text-white bg-[#232326fd] outline-none rounded-[6px] lg:p-[15px] lg:w-[400px]">
+            <option>Select Size</option>
               <option>S</option>
               <option>M</option>
               <option>L</option>
@@ -205,6 +203,7 @@ function Registrations() {
               Any previous basketball experience?
             </h1>
             <select name="user_exp" className="p-[8px] w-[300px] text-white bg-[#232326fd] outline-none rounded-[6px] lg:p-[15px] lg:w-[400px]">
+            <option>Experience</option>
               <option>Yes</option>
               <option>No</option>
             </select>

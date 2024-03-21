@@ -9,8 +9,8 @@ function Navbar() {
   const Navigate = useNavigate()
 
   return (
-    <div>
-      <div className="w-full h-[70px] bg-[#FF4C00] text-white flex items-center justify-between lg:p-4  relative z-[20]">
+    <div className="fixed top-0 left-0 w-full z-50">
+      <div className="w-full h-[70px] bg-[#FF4C00] text-white flex items-center justify-between lg:p-4  relative z-[20] ">
         <div className="w-[100px] p-[10px]">
           <img src={logo} alt="academy-logo" />
         </div>
@@ -77,7 +77,7 @@ function Navbar() {
       >
         <h1 className="text-white w-[100%] h-[50px] bg-[#FF4C00] text-[18px] text-center pt-[10px] font-[900]">VPRS HOOPS ACADEMY</h1>
         <ul className="flex flex-col p-[20px] justify-center items-start gap-[20px]">
-          <li>
+          <li onClick={() => setNavOpen(!NavOpen)}>
             <a
               className="text-xl md:text-xl text-[#FF4C00] font-bold hover:underline-yellow hover:underline hover:underline-offset-[8px]"
               href="/"
@@ -85,7 +85,7 @@ function Navbar() {
               Home
             </a>
           </li>
-          <li>
+          <li onClick={() => setNavOpen(!NavOpen)}>
             <a
               className="text-xl md:text-xl text-[#FF4C00] font-bold hover:underline-yellow hover:underline hover:underline-offset-[8px]"
               href="#about"
@@ -106,7 +106,7 @@ function Navbar() {
               Photo & Gallery
             </a>
           </li> */}
-          <li>
+          <li onClick={() => setNavOpen(!NavOpen)}>
             <a
               className="text-xl md:text-xl text-[#FF4C00] font-bold hover:underline-yellow hover:underline hover:underline-offset-[8px]"
               href="#founder"
@@ -114,7 +114,7 @@ function Navbar() {
               Founder
             </a>
           </li>
-          <li>
+          <li onClick={() => setNavOpen(!NavOpen)}>
             <a
               className="text-xl md:text-xl text-[#FF4C00] font-bold hover:underline-yellow hover:underline hover:underline-offset-[8px]"
               href="#map"
